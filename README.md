@@ -12,7 +12,7 @@ Cooperative Motion Planning for Multiple Tractor-Trailer Vehicles with Moving Ob
 %   Optimal Control Method".
 %   
 % ==============================================================================
-% If there are inquiries, feel free to contact inde_of_case@zju.edu.cn
+% If there are inquiries, feel free to contact libai@zju.edu.cn
 %
 % (Very Important) The AMPL utilized in this pack is just a TRIAL version.
 % The users must delete AMPL.exe in this version after trying it, and
