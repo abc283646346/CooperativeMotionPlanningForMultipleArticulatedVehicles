@@ -1,0 +1,39 @@
+reset;
+model M4.mod;
+include ig.INIVAL;
+option solver ipopt;
+solve;
+
+shell ("del " & ("sol_status.txt"));
+if (match (solve_message, "Optimal") > 0) then {
+	printf "1">>("sol_status.txt");
+	close ("sol_status.txt");
+
+	shell ("del " & ("x.txt"));
+	shell ("del " & ("y.txt"));
+	shell ("del " & ("ig.INIVAL"));
+
+	for {i in {1..Nv}} {
+		for {j in {1..4}} {
+			for {k in {0..Nfe}} {
+				printf "let x[%d,%d,%d]:=%5.4f;\n",i,j,k,x[i,j,k]>>("ig.INIVAL");
+				printf "let y[%d,%d,%d]:=%5.4f;\n",i,j,k,y[i,j,k]>>("ig.INIVAL");
+				printf "let xc[%d,%d,%d]:=%5.4f;\n",i,j,k,xc[i,j,k]>>("ig.INIVAL");
+				printf "let yc[%d,%d,%d]:=%5.4f;\n",i,j,k,yc[i,j,k]>>("ig.INIVAL");
+				printf "let theta[%d,%d,%d]:=%5.4f;\n",i,j,k,theta[i,j,k]>>("ig.INIVAL");
+				printf "let v[%d,%d,%d]:=%5.4f;\n",i,j,k,v[i,j,k]>>("ig.INIVAL");
+				printf "%5.4f; ", xc[i,j,k]>>("x.txt");
+				printf "%5.4f; ", yc[i,j,k]>>("y.txt");
+			}
+		}
+		for {k in {0..Nfe}} {
+			printf "let phy[%d,%d]:=%5.4f;\n",i,k,phy[i,k]>>("ig.INIVAL");
+		}		
+	}
+	close ("ig.INIVAL");
+	close ("x.txt");
+	close ("y.txt");
+} else {
+    printf "0">>("sol_status.txt");
+	close ("sol_status.txt");
+};
